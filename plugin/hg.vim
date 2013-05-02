@@ -100,8 +100,6 @@ function! <SID>ShowLog()
   set nomod
   set nolist
 
-" nnoremap <buffer> <cr> :call <SID>SwitchToTask()<cr>
-" nnoremap <buffer> s    :call <SID>SwitchToTask()<cr>
 " nnoremap <buffer> d    :call <SID>DeleteTask()<cr>
 " nnoremap <buffer> w    :call <SID>WriteTask()<cr>
 " if has("syntax") 
