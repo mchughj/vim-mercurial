@@ -1,0 +1,110 @@
+*mercurial.txt*       Integration with Mercurial  v0.1
+*Mercurial* *'mercurial'*
+===============================================================================
+#                   __  __                          _       _                 #
+#                  |  \/  |                        (_)     | |                #
+#                  | \  / | ___ _ __ ___ _   _ _ __ _  __ _| |                #
+#                  | |\/| |/ _ \ '__/ __| | | | '__| |/ _| |                  #
+#                  | |  | |  __/ | | (__| |_| | |  | | (_| | |                #
+#                  |_|  |_|\___|_|  \___|\__,_|_|  |_|\__,_|_|                #
+#                                                                             #
+#                                                                             #
+===============================================================================
+CONTENTS                                                   *mercurial-contents*
+
+    1. Intro........................................|mercurial-intro|
+    2. Options......................................|mercurial-options|
+    3. Mappings.....................................|mercurial-mappings|
+    4. Views........................................|mercurial-views|
+    4. Credits......................................|mercurial-credits|
+
+===============================================================================
+INTRO                                                         *mercurial-intro*
+
+Simple integration with mercurial.  Philosophically speaking I don't believe
+that a vim plugin should replace all command line activities.  So you aren't
+going to see all functionality related to hg here.  Instead vim is a text
+editor and as such the hg integration is geared towards reading and editing
+files under the source control system.  
+
+Although it may seem like a pain to use Vundle to install you will be happier 
+if you do.  See 
+  https://github.com/gmarik/vundle
+
+Make sure that after you initialize Vundle in your .vimrc that you include
+this line:
+
+  Vundle 'mchughj/vim-mercurial'
+
+The final step is to call :BundleInstall!  This will fetch and update the
+bundles under control of Vundle.
+
+
+
+===============================================================================
+OPTIONS                                                     *mercurial-options*
+
+Overview:~
+
+I have a large number of things - such as style for the hg log output -
+hardcoded within the plugin.  Ideally these should be options that a user of
+this plugin can tweak without requiring them to modify the plugin itself.  As
+of today no options exist.
+
+
+===============================================================================
+MAPPINGS                                                   *mercurial-mappings*
+
+Every mapping is tied to the <Leader> concept.  See *<Leader>* for information 
+about what that is.  The default value is "\" so if you haven't overridden
+this setting (I have - I use ',') you would use "\h<COMMAND>" for every
+command.
+
+                                                               *'mercurial-hd'*
+<Leader>hd
+  Used: In the context of the current file.
+  Shows mercurial diffs for the current file.
+
+                                                               *'mercurial-hl'*
+<Leader>hl
+  Used: In the context of the current file.
+  Shows mercurial log entries for all changes to the current file.
+
+                                                               *'mercurial-ht'*
+<Leader>hl
+  Used: No context required.
+  Show mercurial log file for the changeset which is at the tip.
+  This command is useful when you want to see what files you are currently
+  working on.
+
+                                                               *'mercurial-hb'*
+<Leader>hg
+  Used: No context required.
+  Show mercurial bookmarks.  
+
+
+
+===============================================================================
+VIEWS                                                         *mercurial-views*
+
+Many of the commands above open a new window to show information and data.
+These windows typically have syntax coloring to pick out the important data
+along with context sensitive commands to execute specific operations.  
+
+The top of the file always provides context about what you are looking at
+along with a set of keystroke commands that are used only in this window.  
+The new windows are unnamed and unmodified so they should not clutter up your
+space too much.
+
+
+
+===============================================================================
+CREDITS                                                     *mercurial-credits*
+
+Developed by Jason McHugh <github.com/mchughj>.
+
+Git repository:       https://github.com/mchughj/vim-mercurial
+
+===============================================================================
+
+vim:ft=help:et:ts=2:sw=2:sts=2:norl
