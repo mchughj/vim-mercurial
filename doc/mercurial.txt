@@ -27,8 +27,7 @@ going to see all functionality related to hg here.  Instead vim is a text
 editor and as such the hg integration is geared towards reading and editing
 files under the source control system.  
 
-Although it may seem like a pain to use Vundle to install you will be happier 
-if you do.  See 
+You should reall use Vundle to install.  You will be happier if you do.  See 
   https://github.com/gmarik/vundle
 
 Make sure that after you initialize Vundle in your .vimrc that you include
@@ -37,8 +36,7 @@ this line:
   Vundle 'mchughj/vim-mercurial'
 
 The final step is to call :BundleInstall!  This will fetch and update the
-bundles under control of Vundle.
-
+bundles under control of Vundle. 
 
 
 ===============================================================================
@@ -46,10 +44,30 @@ OPTIONS                                                     *mercurial-options*
 
 Overview:~
 
-I have a large number of things - such as style for the hg log output -
-hardcoded within the plugin.  Ideally these should be options that a user of
-this plugin can tweak without requiring them to modify the plugin itself.  As
-of today no options exist.
+I have a large number of things hardcoded within the plugin.  Ideally these
+should be options that a user of this plugin can tweak without requiring them
+to modify the plugin itself.  As of today only the following options exist.
+
+-------------------------------------------------------------------------------
+Detailed descriptions and default values:~
+
+                                                             *'g:hg_easy_debug'*
+Set this option to anything if you want this plugin to define <Leader>he
+and <leader>hs in order to edit and source the hg plugin.  Extremely awesome
+to use when you are iterating on the plugin itself.
+  let g:ctrlp_map = '<c-p>'
+
+                                                    *'g:hg_change_set_template'*
+Set the template command to be used when getting information about a changeset
+to be displayed to the user as part of the <Leader>hl workflow.  Default 
+value results in something that I find useful but YMMV.
+
+For the format to be used in the --template option see 
+  http://www.selenic.com/mercurial/hg.1.html#templates
+
+You do not need to handle shell escaping for this option as the plugin will
+automatically do this for you.  You do have to double escape the "\" character
+so if you want a newline then use "\\n".  
 
 
 ===============================================================================
@@ -59,6 +77,9 @@ Every mapping is tied to the <Leader> concept.  See *<Leader>* for information
 about what that is.  The default value is "\" so if you haven't overridden
 this setting (I have - I use ',') you would use "\h<COMMAND>" for every
 command.
+
+All mappings begin with <Leader>h followed the specific command.  'h' is for
+mercurial (hg) and then the commands themselves follow simple mnemonics.
 
                                                                *'mercurial-hd'*
 <Leader>hd

@@ -10,14 +10,27 @@
 " ----------------------------------------------------------------
 " Maps
 " ----------------------------------------------------------------
-nmap <Leader>he :edit ~/.vim/bundle/vim-mercurial/plugin/hg.vim<CR>
-nmap <Leader>hE :new ~/.vim/bundle/vim-mercurial/plugin/hg.vim<CR>
-nmap <Leader>hs :source ~/.vim/bundle/vim-mercurial/plugin/hg.vim<CR>
-
 nmap <Leader>hd :call <SID>ShowDiffs()<CR>
 nmap <Leader>hl :call <SID>ShowLog()<CR>
 nmap <Leader>ht :call <SID>ShowTipInfo()<CR>
 nmap <Leader>hb :call <SID>ShowBookmarks()<CR>
+
+
+
+" The following are convenience functions that are useful mostly
+" during development.  They are defined only when you are running a debug 
+" environment.
+
+if exists("g:hg_easy_debug")
+  nmap <Leader>he :edit ~/.vim/bundle/vim-mercurial/plugin/hg.vim<CR>
+  nmap <Leader>hE :new ~/.vim/bundle/vim-mercurial/plugin/hg.vim<CR>
+  nmap <Leader>hs :source ~/.vim/bundle/vim-mercurial/plugin/hg.vim<CR>
+endif
+
+
+if !exists("g:hg_change_set_template")
+  let g:hg_change_set_template = "Description:\\n  {firstline(desc)}\\n\\nFiles:\\n  {join(files, '\\n  ')}"
+end
 
 
 function! <SID>ClearDiffSettings()
@@ -53,7 +66,7 @@ endfunction
 function! <SID>ShowTipInfo()
   new
   put=' // ---------------------------------------'
-  put=' // Files currently modified as part of tip'
+  put=' // Files currently modified as part of "."'
   put=' // ---------------------------------------'
   put=''
   exec ":r! hg log -r. --template \"{files}\""
@@ -110,15 +123,18 @@ endfunction
 
 function! <SID>ShowLog()
   let filename = expand("%")
+  let file_type = &filetype
   new
   silent exec ":r!hg log " . filename 
   put=''
   1
+  let b:file_type = file_type
 
   put=' // ----------'
   put=' // - ' . filename
   put=' // ----------'
   put=''
+  put='Put your cursor anywhere inside of a changeset description and then:'
   put=' Commands: c - show more detailed information about changeset'
   put=' Commands: e - show the file with this changest'
   put=''
@@ -139,10 +155,11 @@ endfunction
 
 
 function! <SID>ViewFileVersionFromLog()
+  let file_type = b:file_type
   let filename = s:GetFilenameFromLog()
   let changeset = s:GetChangeSetAtOrAboveCursor()
 
-  call <SID>ViewFileVersion(filename,changeset)
+  call <SID>ViewFileVersion(filename,changeset,file_type)
 endfunction
 
 
@@ -182,10 +199,9 @@ function! <SID>ViewChangeSet( hash )
   put=' // ----------'
   put=''
 
-  let se=shellescape( "Description:\\n  {firstline(desc)}\\n\\nFiles:\\n  {join(files, '\\n  ')}")
+  let se=shellescape( g:hg_change_set_template )
   exec ":r!hg log -r " . a:hash . " --template " . se 
   put=''
-  let se=shellescape( "Description:  {firstline(desc)}\\nFiles:\\n  {join(files, '\\n  ')}")
   silent exec ":r!hg log --style compact -v -p -r " . a:hash 
   put=''
   1
@@ -199,18 +215,24 @@ function! <SID>ViewChangeSet( hash )
 endfunction
   
 
-function! <SID>ViewFileVersion( filename, hash )
+function! <SID>ViewFileVersion( filename, hash, file_type )
   new
-  put=' // ----------'
-  put=' // ----------'
-  put=' // - Hash ' . a:hash
-  put=' // ----------'
-  put=' // ----------'
+  put=' /// ----------'
+  put=' /// ----------'
+  put=' /// - Hash ' . a:hash
+  put=' /// ----------'
+  put=' /// ----------'
   put=''
 
   silent exec ":r!hg cat " . a:filename . " -r " a:hash
   1
   set nomod
+
+  exec ":set filetype=".a:file_type
+  if has("syntax") 
+    syn match hg_header              " /// -.*"
+    highlight def link hg_header     Error
+  endif
 
 endfunction
   

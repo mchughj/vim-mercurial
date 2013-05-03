@@ -7,8 +7,7 @@ going to see all functionality related to hg here.  Instead vim is a text
 editor and as such the hg integration is geared towards reading and editing
 files under the source control system.
 
-Although it may seem like a pain to use Vundle to install you will be happier
-if you do.  See
+You should reall use Vundle to install.  You will be happier if you do.  See 
   https://github.com/gmarik/vundle
 
 Installing vundle is trivial on a reasonable system with access to git and curl.
