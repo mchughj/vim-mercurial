@@ -97,7 +97,7 @@ mercurial (hg) and then the commands themselves follow simple mnemonics.
   Shows mercurial log entries for all changes to the current file.
 
                                                                *'mercurial-ht'*
-<Leader>hl
+<Leader>ht
   Used: No context required.
   Show mercurial log file for the changeset which is at the tip.
   This command is useful when you want to see what files you are currently
