@@ -1,4 +1,4 @@
-*mercurial.txt*       Integration with Mercurial  v0.1
+*mercurial.txt*                                Integration with Mercurial  v0.1
 *Mercurial* *'mercurial'*
 ===============================================================================
 #                   __  __                          _       _                 #
@@ -25,9 +25,9 @@ Simple integration with mercurial.  Philosophically speaking I don't believe
 that a vim plugin should replace all command line activities.  So you aren't
 going to see all functionality related to hg here.  Instead vim is a text
 editor and as such the hg integration is geared towards reading and editing
-files under the source control system.  
+files under the source control system.
 
-You should reall use Vundle to install.  You will be happier if you do.  See 
+You should reall use Vundle to install.  You will be happier if you do.  See
   https://github.com/gmarik/vundle
 
 Make sure that after you initialize Vundle in your .vimrc that you include
@@ -36,7 +36,7 @@ this line:
   Vundle 'mchughj/vim-mercurial'
 
 The final step is to call :BundleInstall!  This will fetch and update the
-bundles under control of Vundle. 
+bundles under control of Vundle.
 
 
 ===============================================================================
@@ -59,21 +59,26 @@ to use when you are iterating on the plugin itself.
 
                                                     *'g:hg_change_set_template'*
 Set the template command to be used when getting information about a changeset
-to be displayed to the user as part of the <Leader>hl workflow.  Default 
+to be displayed to the user as part of the <Leader>hl workflow.  Default
 value results in something that I find useful but YMMV.
 
-For the format to be used in the --template option see 
+For the format to be used in the --template option see
   http://www.selenic.com/mercurial/hg.1.html#templates
 
 You do not need to handle shell escaping for this option as the plugin will
 automatically do this for you.  You do have to double escape the "\" character
-so if you want a newline then use "\\n".  
+so if you want a newline then use "\\n".
+
+                                                 *'g:hg_default_root_revision'*
+Set the default root revision to be the revision from which you pull from
+an external source.  By default this value will be 'master'.  This is useful
+when showing the changes between tip and some other default revision.
 
 
 ===============================================================================
 MAPPINGS                                                   *mercurial-mappings*
 
-Every mapping is tied to the <Leader> concept.  See *<Leader>* for information 
+Every mapping is tied to the <Leader> concept.  See *<Leader>* for information
 about what that is.  The default value is "\" so if you haven't overridden
 this setting (I have - I use ',') you would use "\h<COMMAND>" for every
 command.
@@ -101,7 +106,16 @@ mercurial (hg) and then the commands themselves follow simple mnemonics.
                                                                *'mercurial-hb'*
 <Leader>hg
   Used: No context required.
-  Show mercurial bookmarks.  
+  Show mercurial bookmarks.
+
+                                                               *'mercurial-hc'*
+<Leader>hc
+  Used: No context required.
+  Show all changes between the tip and another revision.  The revision that
+  you will be comparing against is defined in g:hg_default_root_revision.
+  This command is most useful when trying to answer the question 'what changes
+  have been introduced between the tip and some other version'.
+
 
 
 
@@ -110,10 +124,10 @@ VIEWS                                                         *mercurial-views*
 
 Many of the commands above open a new window to show information and data.
 These windows typically have syntax coloring to pick out the important data
-along with context sensitive commands to execute specific operations.  
+along with context sensitive commands to execute specific operations.
 
 The top of the file always provides context about what you are looking at
-along with a set of keystroke commands that are used only in this window.  
+along with a set of keystroke commands that are used only in this window.
 The new windows are unnamed and unmodified so they should not clutter up your
 space too much.
 

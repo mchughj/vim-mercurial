@@ -4,17 +4,18 @@
 "
 " Maintainer: Jason McHugh <mchughj@fb.com>
 " Created: 2013 Mar 25
+" Last updated: 2013 May 20
 
 " See the doc file for information about this file.
 
 " ----------------------------------------------------------------
 " Maps
 " ----------------------------------------------------------------
-nmap <Leader>hd :call <SID>ShowDiffs()<CR>
+nmap <Leader>hd :call <SID>ShowFileDiffs()<CR>
 nmap <Leader>hl :call <SID>ShowLog()<CR>
 nmap <Leader>ht :call <SID>ShowTipInfo()<CR>
 nmap <Leader>hb :call <SID>ShowBookmarks()<CR>
-
+nmap <Leader>hc :call <SID>ShowChangesetDiffs()<CR>
 
 
 " The following are convenience functions that are useful mostly
@@ -33,6 +34,11 @@ if !exists("g:hg_change_set_template")
 end
 
 
+if !exists("g:hg_default_root_revision")
+  let g:hg_default_root_revision = "master"
+end
+
+
 function! <SID>ClearDiffSettings()
   set nofoldenable
   set foldcolumn=0
@@ -40,7 +46,25 @@ function! <SID>ClearDiffSettings()
   diffoff!
 endfunction
 
-function! <SID>ShowDiffs()
+
+function! <SID>ShowChangesetDiffs()
+  new
+  put=' // -------'
+  put=' // Diffs between tip and '. g:hg_default_root_revision
+  put=' // -------'
+  put=''
+  let se=shellescape( g:hg_change_set_template )
+  exec ":r!hg diff -r . -r " . g:hg_default_root_revision
+  1
+  d
+  set nomod
+  set nolist
+  set nonu
+  set filetype=diff
+endfunction
+
+
+function! <SID>ShowFileDiffs()
 	if &diff
     if ! exists("b:filediff")
       winc w
@@ -65,11 +89,12 @@ endfunction
 
 function! <SID>ShowTipInfo()
   new
-  put=' // ---------------------------------------'
-  put=' // Files currently modified as part of "."'
-  put=' // ---------------------------------------'
+  put=' // -------'
+  put=' // The tip'
+  put=' // -------'
   put=''
-  exec ":r! hg log -r. --template \"{files}\""
+  let se=shellescape( g:hg_change_set_template )
+  exec ":r!hg log -r. --template " . se 
   1
   d
   set nomod
