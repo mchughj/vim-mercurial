@@ -117,6 +117,14 @@ mercurial (hg) and then the commands themselves follow simple mnemonics.
   have been introduced between the tip and some other version'.
 
 
+                                                               *'mercurial-hb'*
+<Leader>hb
+  Used: In the context of the current file.
+  Shows mercurial blame view of the current file.  In this view of the file
+  hitting <CR> on any line will bring up a detailed view of the changeset
+  for that file.
+
+
 
 
 ===============================================================================

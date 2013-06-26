@@ -16,6 +16,7 @@ nmap <Leader>hl :call <SID>ShowLog()<CR>
 nmap <Leader>ht :call <SID>ShowTipInfo()<CR>
 nmap <Leader>hb :call <SID>ShowBookmarks()<CR>
 nmap <Leader>hc :call <SID>ShowChangesetDiffs()<CR>
+nmap <Leader>hb :call <SID>ShowBlame()<CR>
 
 
 " The following are convenience functions that are useful mostly
@@ -47,6 +48,26 @@ function! <SID>ClearDiffSettings()
 endfunction
 
 
+function! <SID>ShowBlame()
+  let filename = expand("%")
+  let file_type = &filetype
+  new
+  put=' // -------'
+  put=' // Blame view of '. filename
+  put=' // -------'
+  put=''
+  let se=shellescape( g:hg_change_set_template )
+  exec ":r!hg blame -cu " . filename
+  1
+  d
+  set nomod
+  set nolist
+  set nonu
+  exec ":set filetype=".file_type
+  nnoremap <buffer> <CR> :call <SID>ViewChangeSetFromBlame()<cr>
+endfunction
+
+
 function! <SID>ShowChangesetDiffs()
   new
   put=' // -------'
@@ -62,6 +83,7 @@ function! <SID>ShowChangesetDiffs()
   set nonu
   set filetype=diff
 endfunction
+
 
 
 function! <SID>ShowFileDiffs()
@@ -191,6 +213,19 @@ endfunction
 function! <SID>ViewChangeSetFromLog()
   let changeset = s:GetChangeSetAtOrAboveCursor()
   call <SID>ViewChangeSet(changeset)
+endfunction
+
+
+function! <SID>ViewChangeSetFromBlame()
+  let changeset = s:GetChangeSetAtBlameLine()
+  call <SID>ViewChangeSet(changeset)
+endfunction
+
+function! <SID>GetChangeSetAtBlameLine()
+  let line = getline(".")
+  let mx='^[ ]*[a-z]* \([0-9a-z]*\):'
+  let l = matchstr( line, mx )
+  return substitute( l, mx, '\1', '' )
 endfunction
 
 
